@@ -86,7 +86,7 @@ plt.grid(True)
 plt.show()
 
 
-# 
+###funciona mas no se ven bien las cajas 
 
 sns.boxplot(
     x='Avatar',
@@ -98,8 +98,30 @@ sns.boxplot(
 )
 
 plt.title("Tiempo de los Usuarios en la website")
-
+# etiquetamos el eje X
 plt.xlabel("promedio de sesion")
+# etiquetamos el eje Y 
 plt.ylabel("tiempo de los usuarios")
 
+#renderizamos el grafico
 plt.show()
+
+#mapa de calor
+#creo una lista con las variables 
+variables=['Avg_Session_Length', 'Time_on_App', 'Time_on_Website']
+#le damos un tamaño
+plt.figure(figsize=(8,6))
+
+# - creamos el mapa de calor con sns.heatmap (importado de seaborn) 
+# - 'annot=True' muestra los valores numéricos dentro de cada celda.
+# - 'cmap='coolwarm'' es una paleta de colores que va del azul (negativo) al rojo (positivo).
+# - 'fmt=".2f"' limita los números a dos decimales.
+sns.heatmap(df[variables].corr(), annot=True, cmap='coolwarm', fmt=".2f")
+
+#agregamos un titulo 
+plt.title("correlacion entre sesion, tiempo en app y website")
+
+#renderizamos el grafico
+plt.show()
+
+
