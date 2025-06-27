@@ -18,10 +18,10 @@ print(df.describe())
 # Selección de variables relevantes
 variables = ['Avg_Session_Length', 'Time_on_App', 'Time_on_Website', 
             'Length_of_Membership', 'Yearly_Amount_Spent']
-df_sel = df[variables]
+df_segundo = df[variables]
 
 # Gráfico de dispersión: Avg_Session_Length vs Time_on_App
-sns.scatterplot(x='Avg_Session_Length', y='Time_on_App', data=df_sel, color="red", alpha=0.5)
+sns.scatterplot(x='Avg_Session_Length', y='Time_on_App', data=df_segundo, color="red", alpha=0.5)
 plt.title('Relación entre Promedio de Sesión y Tiempo en la App')
 plt.xlabel('Promedio de Sesión')
 plt.ylabel('Tiempo en App')
@@ -29,7 +29,7 @@ plt.grid(True)
 plt.show()
 
 # Gráfico de dispersión: Avg_Session_Length vs Time_on_Website
-sns.scatterplot(x='Avg_Session_Length', y='Time_on_Website', data=df_sel, color="blue", alpha=0.5)
+sns.scatterplot(x='Avg_Session_Length', y='Time_on_Website', data=df_segundo, color="blue", alpha=0.5)
 plt.title('Relación entre Promedio de Sesión y Tiempo en Website')
 plt.xlabel('Promedio de Sesión')
 plt.ylabel('Tiempo en Website')
@@ -37,24 +37,24 @@ plt.grid(True)
 plt.show()
 
 # Diagrama de caja para todas las variables numéricas
-sns.boxplot(data=df_sel, palette="pastel")
+sns.boxplot(data=df_segundo, palette="pastel")
 plt.title("Distribución y Outliers en Variables Numéricas")
 plt.xticks(rotation=45)
 plt.show()
 
 # Mapa de calor de correlaciones
 plt.figure(figsize=(10,8))
-sns.heatmap(df_sel.corr(), annot=True, cmap='coolwarm', fmt=".2f", linewidths=0.5)
+sns.heatmap(df_segundo.corr(), annot=True, cmap='coolwarm', fmt=".2f", linewidths=0.5)
 plt.title("Mapa de Correlación entre Variables")
 plt.show()
 
 # Regresión lineal: Length_of_Membership vs Gasto Anual
-sns.lmplot(x='Length_of_Membership', y='Yearly_Amount_Spent', data=df_sel, height=6, aspect=1.5)
+sns.lmplot(x='Length_of_Membership', y='Yearly_Amount_Spent', data=df_segundo, height=6, aspect=1.5)
 plt.title("Relación Lineal entre Tiempo de Membresía y Gasto Anual")
 plt.show()
 
 # Regresión lineal: Time_on_App vs Gasto Anual
-sns.lmplot(x='Time_on_App', y='Yearly_Amount_Spent', data=df_sel, height=6, aspect=1.5)
+sns.lmplot(x='Time_on_App', y='Yearly_Amount_Spent', data=df_segundo, height=6, aspect=1.5)
 plt.title("Relación Lineal entre Tiempo en App y Gasto Anual")
 plt.show()
 
