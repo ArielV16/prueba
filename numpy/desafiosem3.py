@@ -44,11 +44,10 @@ desviacion_estandar = np.std(datos)
 #suma= np.sum(datos, axis=1)
 #promedio= np.round(suma / 3, decimals=2)
 
-# Promedios por estudiante (ya está correcto)
+# Promedios por estudiante 
 promedio = np.round(np.mean(datos, axis=1), 2)
 print("Promedios de los estudiantes:\n", promedio)
 
-#print("estos son los promedios\n", promedio)
 
 #filtrado de las notas 70 en matematicas
 

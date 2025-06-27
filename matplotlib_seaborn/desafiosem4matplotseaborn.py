@@ -1,82 +1,68 @@
+# 📚 Importación de librerías
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+# 🎯 Configuración de estilo
+sns.set(style='whitegrid')
+plt.rcParams['figure.figsize'] = (10, 6)
 
-# Cargamos el conjunto de datos con la url publica 
-
-url = "https://www.kaggle.com/datasets/iyadavvaibhav/ecommerce-customer-device-usage"
-
-
+# 📦 Carga del archivo (debe estar en el mismo directorio que este notebook)
 df = pd.read_csv("Ecommerce Customers.csv")
 
-
+# 🧭 Primer vistazo a los datos
 print(df.head())
-
+print(df.info())
 print(df.describe())
 
-#🧰 Instrucciones
+# 🎯 Selección de variables relevantes
+variables = ['Avg_Session_Length', 'Time_on_App', 'Time_on_Website', 
+            'Length_of_Membership', 'Yearly_Amount_Spent']
+df_sel = df[variables]
 
-#Selecciona un subconjunto de variables que te parezcan relevantes.
-#Aplica gráficos de dispersión, diagramas de caja, mapas de calor, etc.
-#Comenta cada paso que realices como lo hemos hecho en este notebook.
-
-# Indicamos las variables que usaremos, indicamos el color que usaremos y la densidad del mismo
-plt.scatter(df.Avg_Session_Length, df.Time_on_App, color="red", alpha=0.5)
-
-# Etiquetamos el eje X para indicar que representa el promedio de sesion de los usuarios
-plt.xlabel('promedio de sesion')
-
-# Etiquetamos el eje Y para indicar que representa el tiempo usando la app de los usuarios
-plt.ylabel('tiempo en la app')
-
-
-# Agregamos un titulo al grafico
-plt.title('Tiempo promedio de los Usuarios usando la App')
-
-# Agregamos una cuadrícula de fondo para facilitar la lectura de los valores de los ejes y mejorar la interpretación.
+# 📈 Gráfico de dispersión: Avg_Session_Length vs Time_on_App
+sns.scatterplot(x='Avg_Session_Length', y='Time_on_App', data=df_sel, color="red", alpha=0.5)
+plt.title('Relación entre Promedio de Sesión y Tiempo en la App')
+plt.xlabel('Promedio de Sesión')
+plt.ylabel('Tiempo en App')
 plt.grid(True)
-
-# Finalmente, renderizamos y mostramos el gráfico en pantalla.
 plt.show()
 
-
-###funciona mas no se ven bien las cajas 
-
-sns.boxplot(
-    x='Avatar',
-    y='Yearly_Amount_Spent',
-    hue='Avatar',
-    data=df,
-    palette="muted",
-    legend=False
-)
-
-plt.title("Tiempo de los Usuarios en la website")
-# etiquetamos el eje X
-plt.xlabel("promedio de sesion")
-# etiquetamos el eje Y 
-plt.ylabel("tiempo de los usuarios")
-
-#renderizamos el grafico
+# 📈 Gráfico de dispersión: Avg_Session_Length vs Time_on_Website
+sns.scatterplot(x='Avg_Session_Length', y='Time_on_Website', data=df_sel, color="blue", alpha=0.5)
+plt.title('Relación entre Promedio de Sesión y Tiempo en Website')
+plt.xlabel('Promedio de Sesión')
+plt.ylabel('Tiempo en Website')
+plt.grid(True)
 plt.show()
 
-#mapa de calor
-#creo una lista con las variables 
-variables=['Avg_Session_Length', 'Time_on_App', 'Time_on_Website']
-#le damos un tamaño
-plt.figure(figsize=(8,6))
-
-# - creamos el mapa de calor con sns.heatmap (importado de seaborn) 
-# - 'annot=True' muestra los valores numéricos dentro de cada celda.
-# - 'cmap='coolwarm'' es una paleta de colores que va del azul (negativo) al rojo (positivo).
-# - 'fmt=".2f"' limita los números a dos decimales.
-sns.heatmap(df[variables].corr(), annot=True, cmap='coolwarm', fmt=".2f")
-
-#agregamos un titulo 
-plt.title("correlacion entre sesion, tiempo en app y website")
-
-#renderizamos el grafico
+# 📊 Diagrama de caja para todas las variables numéricas
+sns.boxplot(data=df_sel, palette="pastel")
+plt.title("Distribución y Outliers en Variables Numéricas")
+plt.xticks(rotation=45)
 plt.show()
 
+# 🔥 Mapa de calor de correlaciones
+plt.figure(figsize=(10,8))
+sns.heatmap(df_sel.corr(), annot=True, cmap='coolwarm', fmt=".2f", linewidths=0.5)
+plt.title("Mapa de Correlación entre Variables")
+plt.show()
 
+# 📉 Regresión lineal: Length_of_Membership vs Gasto Anual
+sns.lmplot(x='Length_of_Membership', y='Yearly_Amount_Spent', data=df_sel, height=6, aspect=1.5)
+plt.title("Relación Lineal entre Tiempo de Membresía y Gasto Anual")
+plt.show()
+
+# 📉 Regresión lineal: Time_on_App vs Gasto Anual
+sns.lmplot(x='Time_on_App', y='Yearly_Amount_Spent', data=df_sel, height=6, aspect=1.5)
+plt.title("Relación Lineal entre Tiempo en App y Gasto Anual")
+plt.show()
+
+# ⚖️ Clasificación de usuarios por preferencia de uso (App vs Website)
+df['Preferred_Device'] = df['Time_on_App'] > df['Time_on_Website']
+sns.boxplot(x='Preferred_Device', y='Yearly_Amount_Spent', data=df, palette="Set2")
+plt.xticks([0,1], ['Website', 'App'])
+plt.title("Gasto Anual según Plataforma Preferida")
+plt.xlabel("Preferencia de Uso")
+plt.ylabel("Gasto Anual")
+plt.show()
