@@ -6,7 +6,7 @@
 
 import numpy as np 
 
-datos = np.genfromtxt("estudiantes_notas.csv", delimiter=",", skip_header=1, usecols=(1,2,3))
+datos = np.genfromtxt("estudiantes_notas (1).csv", delimiter=",", skip_header=1, usecols=(1,2,3))
 
 #cambiar dimensiones 
 
@@ -38,6 +38,7 @@ print("esta es el modo de normalizar en z-score\n", array_zscore_estudiantes)
 #desviacion estandar 
 
 desviacion_estandar = np.std(datos)
+print("desviacion estandar", desviacion_estandar)
 
 #forma de sacar los promedio 
 

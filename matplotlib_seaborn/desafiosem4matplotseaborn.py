@@ -1,68 +1,56 @@
-#Importación de librerías
+# Importamos librerías
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# Configuración de estilo
-sns.set(style='whitegrid')
+# Configuración general
+sns.set_theme(style='whitegrid')
 plt.rcParams['figure.figsize'] = (10, 6)
 
-# 📦 Carga del archivo (debe estar en el mismo directorio que este notebook)
-df = pd.read_csv("Ecommerce Customers.csv")
+# Cargar dataset 
+df = pd.read_csv('Ecommerce Customers.csv')
 
 # Primer vistazo a los datos
 print(df.head())
-print(df.info())
 print(df.describe())
 
-# Selección de variables relevantes
-variables = ['Avg_Session_Length', 'Time_on_App', 'Time_on_Website', 
-            'Length_of_Membership', 'Yearly_Amount_Spent']
-df_segundo = df[variables]
+# Seleccionamos solo las columnas numéricas relevantes para análisis
+variables_numericas = ['Avg_Session_Length', 'Time_on_App', 'Time_on_Website', 'Length_of_Membership', 'Yearly_Amount_Spent']
+df_numericas = df[variables_numericas]
 
-# Gráfico de dispersión: Avg_Session_Length vs Time_on_App
-sns.scatterplot(x='Avg_Session_Length', y='Time_on_App', data=df_segundo, color="red", alpha=0.5)
-plt.title('Relación entre Promedio de Sesión y Tiempo en la App')
-plt.xlabel('Promedio de Sesión')
-plt.ylabel('Tiempo en App')
+# Histogramas para ver distribución de variables numéricas
+df_numericas.hist(bins=30, color='teal', edgecolor='black', figsize=(12,8))
+plt.suptitle('Distribución de Variables Numéricas')
+plt.show()
+
+# Pairplot para observar relaciones entre variables numéricas
+sns.pairplot(df_numericas, kind='scatter', plot_kws={'alpha':0.5, 'color':'blue'})
+plt.suptitle('Relaciones entre Variables Numéricas', y=1.02)
+plt.show()
+
+# Mapa de calor de correlación entre variables numéricas
+plt.figure(figsize=(8,6))
+sns.heatmap(df_numericas.corr(), annot=True, cmap='coolwarm', fmt=".2f", linewidths=0.5)
+plt.title('Matriz de Correlación entre Variables Numéricas')
+plt.show()
+
+# Gráfico de dispersión entre Time_on_App y Yearly_Amount_Spent
+sns.scatterplot(x='Time_on_App', y='Yearly_Amount_Spent', data=df, alpha=0.6, color='darkorange')
+plt.title('Tiempo en App vs Gastos Anuales')
+plt.xlabel('Tiempo en App (minutos)')
+plt.ylabel('Gastos Anuales ($)')
 plt.grid(True)
 plt.show()
 
-# Gráfico de dispersión: Avg_Session_Length vs Time_on_Website
-sns.scatterplot(x='Avg_Session_Length', y='Time_on_Website', data=df_segundo, color="blue", alpha=0.5)
-plt.title('Relación entre Promedio de Sesión y Tiempo en Website')
-plt.xlabel('Promedio de Sesión')
-plt.ylabel('Tiempo en Website')
+# Gráfico de dispersión entre Time_on_Website y Yearly_Amount_Spent
+sns.scatterplot(x='Time_on_Website', y='Yearly_Amount_Spent', data=df, alpha=0.6, color='green')
+plt.title('Tiempo en Website vs Gastos Anuales')
+plt.xlabel('Tiempo en Website (minutos)')
+plt.ylabel('Gastos Anuales ($)')
 plt.grid(True)
 plt.show()
 
-# Diagrama de caja para todas las variables numéricas
-sns.boxplot(data=df_segundo, palette="pastel")
-plt.title("Distribución y Outliers en Variables Numéricas")
-plt.xticks(rotation=45)
-plt.show()
-
-# Mapa de calor de correlaciones
-plt.figure(figsize=(10,8))
-sns.heatmap(df_segundo.corr(), annot=True, cmap='coolwarm', fmt=".2f", linewidths=0.5)
-plt.title("Mapa de Correlación entre Variables")
-plt.show()
-
-# Regresión lineal: Length_of_Membership vs Gasto Anual
-sns.lmplot(x='Length_of_Membership', y='Yearly_Amount_Spent', data=df_segundo, height=6, aspect=1.5)
-plt.title("Relación Lineal entre Tiempo de Membresía y Gasto Anual")
-plt.show()
-
-# Regresión lineal: Time_on_App vs Gasto Anual
-sns.lmplot(x='Time_on_App', y='Yearly_Amount_Spent', data=df_segundo, height=6, aspect=1.5)
-plt.title("Relación Lineal entre Tiempo en App y Gasto Anual")
-plt.show()
-
-# Clasificación de usuarios por preferencia de uso (App vs Website)
-df['Preferred_Device'] = df['Time_on_App'] > df['Time_on_Website']
-sns.boxplot(x='Preferred_Device', y='Yearly_Amount_Spent', data=df, palette="Set2")
-plt.xticks([0,1], ['Website', 'App'])
-plt.title("Gasto Anual según Plataforma Preferida")
-plt.xlabel("Preferencia de Uso")
-plt.ylabel("Gasto Anual")
+# Gráfico de regresión lineal entre Length_of_Membership y Yearly_Amount_Spent
+sns.lmplot(x='Length_of_Membership', y='Yearly_Amount_Spent', data=df, scatter_kws={'alpha':0.4}, height=6, aspect=1.5)
+plt.title('Regresión lineal: Duración de Membresía vs Gastos Anuales')
 plt.show()

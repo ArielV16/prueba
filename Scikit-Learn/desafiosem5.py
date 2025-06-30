@@ -54,7 +54,7 @@ print (porcentaje_mayor)
 
 
 promedio_notas_por_comuna = df.groupby("Comuna")[["Nota_Matemáticas", "Nota_Lenguaje", "Nota_Ciencias"]].mean()
-print("promedio de notas ordenadas por genero\n", promedio_notas_por_comuna)
+print("promedio de notas ordenadas por comuna\n", promedio_notas_por_comuna)
 
 #Filtrar estudiantes con calificaciones promedio mayores a 80 y mostrarlos en un nuevo DataFrame.
 #Agrupar los datos por género y calcular el promedio de calificaciones por género.
@@ -104,7 +104,7 @@ print(df_encoded)
 #Distribución de calificaciones por asignatura.
 #Promedio de calificaciones por comuna (gráfico de barras).
 #Crear un gráfico de dispersión que relacione Horas_de_estudio y Nota_Matemáticas.
-#Pregunta: ¿Qué patrón observas entre horas de estudio y desempeño en matemáticas?
+    #Pregunta: ¿Qué patrón observas entre horas de estudio y desempeño en matemáticas?
 
 
 plt.figure(figsize=(10, 6))
@@ -143,7 +143,7 @@ plt.scatter(df['Horas_de_estudio'], df['Nota_Matemáticas'], color='blue', alpha
 # Etiquetamos el eje X para indicar que representa el consumo de combustible en condiciones combinadas.
 plt.xlabel('Cantidad de horas estudiando')
 
-# Etiquetamos el eje Y para indicar que representa las emisiones de dióxido de carbono por kilómetro.
+# Et    iquetamos el eje Y para indicar que representa las emisiones de dióxido de carbono por kilómetro.
 plt.ylabel('Nota en matematicas')
 
 # Agregamos un título descriptivo para que el gráfico tenga contexto sin necesidad de explicación adicional.
@@ -201,31 +201,30 @@ plt.show()
 #Convierte las variables categóricas como genero o tipo_escuela en variables numéricas usando OneHotEncoder.
 #Crea un nuevo DataFrame con los datos preprocesados y muéstralo.
 
-
-import pandas as pd
-from sklearn.preprocessing import StandardScaler, OneHotEncoder
-
 # Supongamos que ya tienes cargado tu DataFrame df
 
 # Columnas numéricas a escalar
 num_cols = ['Edad', 'Horas_de_estudio', 'Nota_Matemáticas', 'Nota_Lenguaje', 'Nota_Ciencias']
 
-# Columnas categóricas a transformar
-cat_cols = ['Genero', 'tipo_escuela']  # Ajusta 'tipo_escuela' si no está en el df
-
-# 1. Escalar columnas numéricas
+# Escalar datos con StandardScaler
 scaler = StandardScaler()
-df_num_scaled = pd.DataFrame(scaler.fit_transform(df[num_cols]), columns=num_cols)
+df_scaled = pd.DataFrame(scaler.fit_transform(df[num_cols]), columns=num_cols)
 
-# 2. OneHotEncoder para variables categóricas
-encoder = OneHotEncoder(sparse_output=False, drop='first')
+# Columnas categóricas
+categorical_cols = [col for col in ['Genero', 'tipo_escuela'] if col in df.columns]
 
-df_cat_encoded = pd.DataFrame(encoder.fit_transform(df[cat_cols]),
-                            columns=encoder.get_feature_names_out(cat_cols))
+# Codificación OneHotEncoder (solo si hay columnas categóricas)
+if categorical_cols:
+    encoder = OneHotEncoder(sparse_output=False, drop='first')
+    df_encoded = pd.DataFrame(encoder.fit_transform(df[categorical_cols]),
+                            columns=encoder.get_feature_names_out(categorical_cols))
+else:
+    df_encoded = pd.DataFrame()  # vacío si no hay columnas categóricas
 
-# 3. Unir ambos DataFrames
-df_preprocessed = pd.concat([df_num_scaled.reset_index(drop=True),
-                            df_cat_encoded.reset_index(drop=True)], axis=1)
+# Combinar datos escalados y codificados
+df_final = pd.concat([df_scaled.reset_index(drop=True),
+                    df_encoded.reset_index(drop=True)], axis=1)
 
 # Mostrar el DataFrame preprocesado
-print(df_preprocessed.head())
+print("DataFrame preprocesado (primeras filas):")
+print(df_final.head())
