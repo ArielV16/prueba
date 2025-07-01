@@ -17,11 +17,13 @@ print("Este es el head del array\n", df.head())
 print("Este es el tail del array\n", df.tail())
 
 # Información general
-print(df.info())
+#print("Informacion del array\n",df.info())
+print("Informacion del array\n")
+df.info()
 
 # Mostrar cantidad de filas y columnas
 num_filas_shape, num_columnas_shape = df.shape
-print(f"Número de filas: {num_filas_shape}")
+print(f"\nNúmero de filas: {num_filas_shape}")
 print(f"Número de columnas: {num_columnas_shape}")
 
 # Tipos de datos

@@ -30,7 +30,7 @@ plt.show()
 
 # Mapa de calor de correlación entre variables numéricas
 plt.figure(figsize=(8,6))
-sns.heatmap(df_numericas.corr(), annot=True, cmap='coolwarm', fmt=".2f", linewidths=0.5)
+sns.heatmap(df_numericas.corr(), annot=True, cmap='YlGnBu', fmt=".2f", linewidths=0.5)
 plt.title('Matriz de Correlación entre Variables Numéricas')
 plt.show()
 

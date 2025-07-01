@@ -13,31 +13,29 @@ print("Visualizacion del head\n",df.head())
 print("Visualizacion del tail\n",df.tail())
 
 #visualizamos el conjunto de datos con .shape
-print("Conjunto de datos",df.shape)
+print("Conjunto de datos\n",df.shape)
 
 #Visualizamos las estadisticas descriptivas de las columnas con .describe()
-print("Estadisticas descriptivas de las columnas", df.describe())
+print("Estadisticas descriptivas de las columnas\n", df.describe())
 
 #Buscamos el rango de edad con .mode()
 rango_edad = df["Edad"].mode() 
-print("Rango de edad comun",rango_edad)
+print("Rango de edad comun\n",rango_edad)
 
 #identificamos si hay valores nulos o vacios
 #al usar el codigo df.isnull() el output seria false o true pero si pones df.isnull().sum()
 #nos hara identificar mas rapido los valores nulos ya que suma los valores de cada columna para ver si son nulos
-print("Hay valores nulos?", df.isnull().sum())
+
+print("Hay valores nulos? \n", df.isnull().sum())
 
 #promedio general por asignatura 
 
-df["General"] = df[['Nota_Matemáticas', 'Nota_Lenguaje', 'Nota_Ciencias']].mean(axis=1)
+df["Promedio"] = df[['Nota_Matemáticas', 'Nota_Lenguaje', 'Nota_Ciencias']].mean(axis=1).round().astype(int)
 
-print(df[["Estudiante_ID","General"]])
+print("Promedio general por asignatura\n",df[["Estudiante_ID","Promedio"]])
 
 #promedio por estudiantes
-
-df["Promedio"] = df[['Nota_Matemáticas', 'Nota_Lenguaje', 'Nota_Ciencias']].mean(axis=1)
-
-print(df[["Estudiante_ID","Promedio"]])
+print("Promedio de estudiantes\n", df[["Estudiante_ID","Promedio"]])
 
 
 #Determinar el porcentaje de estudiantes que tienen una calificación mayor o igual a 60 en las tres asignaturas.
@@ -48,12 +46,20 @@ print(df[["Estudiante_ID","Promedio"]])
 
 
 #mas o menos esta
-porcentaje_mayor = ((df["Nota_Matemáticas"] >=60) & (df["Nota_Lenguaje"] >=60 ) & (df["Nota_Ciencias"] >=60 ))
+# Crear la condición booleana
+porcentaje_mayor = (
+    (df["Nota_Matemáticas"] >= 60) &
+    (df["Nota_Lenguaje"] >= 60) &
+    (df["Nota_Ciencias"] >= 60)
+)
 
-print (porcentaje_mayor)
+# Filtrar el DataFrame usando esa condición
+df_mayores = df[porcentaje_mayor]
+
+print(df_mayores[["Estudiante_ID", "Nota_Matemáticas", "Nota_Lenguaje", "Nota_Ciencias"]])
 
 
-promedio_notas_por_comuna = df.groupby("Comuna")[["Nota_Matemáticas", "Nota_Lenguaje", "Nota_Ciencias"]].mean()
+promedio_notas_por_comuna = df.groupby("Comuna")[["Nota_Matemáticas", "Nota_Lenguaje", "Nota_Ciencias"]].mean().round()
 print("promedio de notas ordenadas por comuna\n", promedio_notas_por_comuna)
 
 #Filtrar estudiantes con calificaciones promedio mayores a 80 y mostrarlos en un nuevo DataFrame.
@@ -63,7 +69,7 @@ mayor_por_80 = (df[df["Promedio"] >80 ])
 print(mayor_por_80)
 
 
-grupo_genero = df.groupby("Genero")[["Nota_Matemáticas", "Nota_Lenguaje", "Nota_Ciencias"]].mean()
+grupo_genero = df.groupby("Genero")[["Nota_Matemáticas", "Nota_Lenguaje", "Nota_Ciencias"]].mean().round()
 print(grupo_genero)
 
 
@@ -73,15 +79,15 @@ print(grupo_genero)
 
 
 # Seleccionar solo las columnas 'Horas_de_estudio' y 'Promedio'
-columns_to_normalize = ['Horas_de_estudio', 'Promedio']
+columns_para_normalizar = ['Horas_de_estudio', 'Promedio']
 
 # Crear el objeto MinMaxScaler
 scaler = MinMaxScaler()
 
 # Normalizar las columnas seleccionadas
-df[columns_to_normalize] = scaler.fit_transform(df[columns_to_normalize])
+df[columns_para_normalizar] = scaler.fit_transform(df[columns_para_normalizar])
 
-print(df[columns_to_normalize])
+print(df[columns_para_normalizar])
 
 
 #¿Qué hace pd.get_dummies()?

@@ -12,7 +12,7 @@ Estudiante_ID,Edad,Genero,Comuna,Nota_Matemáticas,Nota_Lenguaje,Nota_Ciencias,P
 11,21,masculino,San Pedro,53,54,79,62,menor a 25
 12,28,femenino,Hualpén,26,28,38,31,mayor de 25
 13,20,femenino,Lota,71,81,90,81,menor a 25
-14,29, , ,29,24,15,23,mayor de 25
+14,29,,,29,24,15,23,mayor de 25
 15,20,masculino,San Pedro,64,24,51,46,menor a 25
 16,20,femenino,Concepción,54,55,55,55,menor a 25
 17,29,femenino,Lota,92,98,23,71,mayor de 25

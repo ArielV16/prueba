@@ -52,7 +52,11 @@ print("Promedios de los estudiantes:\n", promedio)
 
 #filtrado de las notas 70 en matematicas
 
-filtrar = datos[:,0] > 70
+columnas = ["Nota_Matemáticas", "Nota_Lenguaje", "Nota_Ciencias"]
+
+filtrar = datos[:, 0] > 70
 estudiantes_filtrados = datos[filtrar]
 
-print ("estudiantes con las notas >70 \n", estudiantes_filtrados)
+print("Estudiantes con notas > 70 en Matemáticas:\n")
+print(columnas)
+print(estudiantes_filtrados)
